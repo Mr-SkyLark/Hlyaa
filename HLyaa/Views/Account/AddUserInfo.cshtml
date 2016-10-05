@@ -1,0 +1,38 @@
+﻿@model HLyaa.Models.AddUserInfoViewModel
+@{
+    ViewBag.Title = "Добавьте информацию о себе";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("AddUserInfo", "Account", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <h4>Добавьте информацию о себе.</h4>
+    <hr />
+    @Html.ValidationSummary()
+    <div>
+        @Html.LabelFor(model => model.UserName)
+        <div>
+            @Html.EditorFor(model => model.UserName)
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(model => model.Nick)
+        <div>
+            @Html.EditorFor(model => model.Nick)
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(model => model.BirthdayDate)
+        <div>
+            @Html.EditorFor(model => model.BirthdayDate)
+        </div>
+    </div>
+    <div>
+        <div>
+            <input type="submit" value="AddUserInfo" />
+        </div>
+    </div>
+}
+

@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Злостный неплательщик</title>
+
+</head>
+<body>
+    <div>
+        <div>
+            <div>
+                @Html.ActionLink("Злостный неплательщик", "Index", "Home")
+            </div>
+            <div>
+                <ul>
+                    <li>@Html.ActionLink("На главную", "Index", "Home")</li>
+                    <li>@Html.ActionLink("О системе", "About", "Home")</li>
+                    <li>@Html.ActionLink("Контакты", "Contact", "Home")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div>
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Злостный неплательщик</p>
+        </footer>
+    </div>
+</body>
+</html>

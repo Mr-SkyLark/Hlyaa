@@ -1,0 +1,55 @@
+﻿@model HLyaa.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "Аутентификация";
+}
+
+<h2>@ViewBag.Title.</h2>
+<div>
+    <div>
+        <section>
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <h4>Используйте вашу локальную учетную запись для входа.</h4>
+                <hr />
+                @Html.ValidationSummary(true)
+                <div>
+                    @Html.LabelFor(m => m.UserName)
+                    <div>
+                        @Html.TextBoxFor(m => m.UserName)
+                        @Html.ValidationMessageFor(m => m.UserName)
+                    </div>
+                </div>
+                <div>
+                    @Html.LabelFor(m => m.Password)
+                    <div>
+                        @Html.PasswordFor(m => m.Password)
+                        @Html.ValidationMessageFor(m => m.Password)
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <div>
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                            @Html.LabelFor(m => m.RememberMe)
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <input type="submit" value="Log in" />
+                    </div>
+                </div>
+                <p>
+                    @Html.ActionLink("Зарегестрируйтесь", "Register") Если вы до сих пор не зарегестрированны.
+                </p>
+            }
+        </section>
+    </div>
+    <div>
+        <section id="socialLoginForm">
+            @Html.Partial("_ExternalLoginsListPartial", new { Action = "ExternalLogin", ReturnUrl = ViewBag.ReturnUrl })
+        </section>
+    </div>
+</div>

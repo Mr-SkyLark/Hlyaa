@@ -1,0 +1,1 @@
+2016-06-13 14:07:12.3438|ERROR|HLyaa.Logger.NLogLogger|An error has occurred

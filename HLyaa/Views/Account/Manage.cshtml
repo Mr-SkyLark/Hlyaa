@@ -1,0 +1,22 @@
+﻿@using HLyaa.Models;
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "Настройки учетной записи";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<p>@ViewBag.StatusMessage</p>
+<div>
+    <div>
+        @if (ViewBag.HasLocalPassword)
+        {
+            @Html.Partial("_ChangePasswordPartial")
+        }
+        else
+        {
+            @Html.Partial("_SetPasswordPartial")
+        }
+
+    </div>
+</div>

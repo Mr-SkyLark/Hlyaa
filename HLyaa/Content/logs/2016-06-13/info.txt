@@ -1,0 +1,1 @@
+2016-06-13 14:07:12.3078|INFO|HLyaa.Logger.NLogLogger|We're on the Index page for Activities
