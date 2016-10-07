@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using HLyaa.Models;
 using HLyaa.Logger;
+using HLyaa.Helper;
 
 namespace HLyaa.Controllers
 {
@@ -114,7 +115,7 @@ namespace HLyaa.Controllers
     // GET: /Account/AddUserInfo
     public ActionResult AddUserInfo()
     {
-      var curUser = GetMyUserInfo();
+      var curUser = ControllerHelper.CurrentUserInfo(db, UserManager);
       if (curUser == null)
       {
         return HttpNotFound();
@@ -129,7 +130,7 @@ namespace HLyaa.Controllers
     [ValidateAntiForgeryToken]
     public ActionResult AddUserInfo(AddUserInfoViewModel viewModel)
     {
-      var curUser = GetMyUserInfo();
+      var curUser = ControllerHelper.CurrentUserInfo(db, UserManager);
       if (curUser == null)
       {
         return HttpNotFound();
@@ -437,7 +438,7 @@ namespace HLyaa.Controllers
       }
     }
 
-    private UserInfo GetMyUserInfo()
+    public UserInfo CurrentUserInfo()
     {
       var uId = User.Identity.GetUserId();
       if (uId == null)

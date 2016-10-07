@@ -1,4 +1,5 @@
-﻿@model IEnumerable<HLyaa.Models.UserInfo>
+﻿@using HLyaa.Models;
+@model CheckBoxDoubleModel
 
 @{
     ViewBag.Title = "Создать событие";
@@ -7,43 +8,35 @@
 
 <h2>CreateEvent</h2>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Age)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BirthdayDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Nick)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
+@if (Model.CheckBoxDataItems.Count() == Model.DoubleItems.Count())
+{
+  <table>
+    @for (int i = 0; i < Model.CheckBoxDataItems.Count(); i++)
+    {
+      <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Age)
+          @Html.CheckBoxFor(m => m.CheckBoxDataItems[i].Selected)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.BirthdayDate)
+          @Html.DisplayFor(m => m.CheckBoxDataItems[i].Text)
+          @Html.HiddenFor(m => m.CheckBoxDataItems[i].Value)
+          @Html.HiddenFor(m => m.CheckBoxDataItems[i].Text)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
+          @Html.TextBoxFor(m => m.DoubleItems.ElementAt(i).Value)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nick)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+      </tr>
+    }
+  </table>
+  <br />
+  <input type="submit" value="Submit" />
 }
 
-</table>
+@if (ViewBag.Message != null)
+{
+  <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+  </script>
+}

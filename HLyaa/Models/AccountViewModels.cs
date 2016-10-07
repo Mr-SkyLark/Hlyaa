@@ -74,7 +74,7 @@ namespace HLyaa.Models
     public string UserName { get; set; }
 
     [Required]
-    [Display(Name = "Ник")]
+    [Display(Name = "Псевдоним")]
     public string Nick { get; set; }
 
     [Required]
