@@ -40,45 +40,54 @@ namespace HLyaa.Controllers
       CreateNewEventModel model = new CreateNewEventModel();
       foreach (var user in db.UsersInfo.ToList())
       {
-        model.CheckBoxDataItems.Add(new SelectListItem
+        model.CheckBoxDataItems.Add(user.Id, new CheckBoxItem()
         {
-          Text = user.Name,
-          Value = user.Id.ToString()
+          Name = user.Name,
+          Data = 0,
+          Selected = false
         });
-        model.DoubleItems.Add(user.Id, 0);
       }
       return View(model);
     }
     [HttpPost]
     public ActionResult CreateEvent(CreateNewEventModel model)
     {
-      var newEvent = new Event() { Name = model.EventName, GodDebt = false, DateCreated = DateTime.Now,
-        Reporter= ControllerHelper.CurrentUserInfo(db, UserManager)};
-      newEvent = db.Events.Add(newEvent);
-
-      for (int i = 0; i < model.CheckBoxDataItems.Count(); ++i)
+      if (ModelState.IsValid)
       {
-        if (model.CheckBoxDataItems[i].Selected)
+        var newEvent = new Event()
         {
-          db.DebtParts.Add(new DebtPart()
+          Name = model.EventName,
+          GodDebt = false,
+          DateCreated = DateTime.Now,
+          Reporter = ControllerHelper.CurrentUserInfo(db, UserManager)
+        };
+        newEvent = db.Events.Add(newEvent);
+
+        foreach (var keypar in model.CheckBoxDataItems)
+        {
+          if (keypar.Value.Selected)
           {
-            Part = null,
-            Summ = model.DoubleItems.ElementAt(i).Value,
-            GlobalFlag = false,
-            Event = newEvent,
-            User = db.UsersInfo.Find(model.DoubleItems.ElementAt(i).Key)
-          });
-          db.DebtParts.Add(new DebtPart()
-          {
-            Part = null,
-            Summ = model.DoubleItems.ElementAt(i).Value,
-            GlobalFlag = false,
-            Event = newEvent,
-            User = db.UsersInfo.Find(model.DoubleItems.ElementAt(i).Key)
-          });
+            db.DebtParts.Add(new DebtPart()
+            {
+              Part = null,
+              Summ = keypar.Value.Data,
+              GlobalFlag = false,
+              Event = newEvent,
+              User = db.UsersInfo.Find(keypar.Key)
+            });
+            db.DebtParts.Add(new DebtPart()
+            {
+              Part = null,
+              Summ = -keypar.Value.Data,
+              GlobalFlag = false,
+              Event = newEvent,
+              User = db.UsersInfo.Find(keypar.Key)
+            });
+          }
         }
+        db.SaveChanges();
+        return View(model);
       }
-      db.SaveChanges();
 
       return View(model);
     }

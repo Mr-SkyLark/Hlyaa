@@ -6,15 +6,21 @@ using System.Web.Mvc;
 
 namespace HLyaa.Models
 {
+  public class CheckBoxItem
+  {
+    public string Name { get; set; }
+    public double Data { get; set; }
+    public bool Selected { get; set; }
+  }
   public class CreateNewEventModel
   {
+    [Required(ErrorMessage = "Введите заголовок события")]
+    [Display(Name = "Заголовок события")]
     public string EventName { get; set; }
-    public List<SelectListItem> CheckBoxDataItems { get; set; }
-    public Dictionary<int,double> DoubleItems { get; set; }
+    public Dictionary<int, CheckBoxItem> CheckBoxDataItems { get; set; }
     public CreateNewEventModel()
     {
-      CheckBoxDataItems = new List<SelectListItem>();
-      DoubleItems = new Dictionary<int, double>();
+      CheckBoxDataItems = new Dictionary<int, CheckBoxItem>();
     }
 
   }
