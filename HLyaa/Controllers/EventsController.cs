@@ -53,6 +53,8 @@ namespace HLyaa.Controllers
     {
       var newEvent = new Event() { Name = "test", GodDebt = false, DateCreated = DateTime.Now,
         Price =123.123, Reporter= ControllerHelper.CurrentUserInfo(db, UserManager)};
+      db.Events.Add(newEvent);
+      db.SaveChanges();
 
       return View(model);
     }

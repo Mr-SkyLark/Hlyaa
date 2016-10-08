@@ -1,5 +1,4 @@
-﻿@using HLyaa.Models;
-@model CheckBoxDoubleModel
+﻿@model HLyaa.Models.CheckBoxDoubleModel
 
 @{
     ViewBag.Title = "Создать событие";
@@ -10,33 +9,27 @@
 
 @if (Model.CheckBoxDataItems.Count() == Model.DoubleItems.Count())
 {
-  <table>
-    @for (int i = 0; i < Model.CheckBoxDataItems.Count(); i++)
-    {
-      <tr>
-        <td>
-          @Html.CheckBoxFor(m => m.CheckBoxDataItems[i].Selected)
-        </td>
-        <td>
-          @Html.DisplayFor(m => m.CheckBoxDataItems[i].Text)
-          @Html.HiddenFor(m => m.CheckBoxDataItems[i].Value)
-          @Html.HiddenFor(m => m.CheckBoxDataItems[i].Text)
-        </td>
-        <td>
-          @Html.TextBoxFor(m => m.DoubleItems.ElementAt(i).Value)
-        </td>
-      </tr>
-    }
-  </table>
-  <br />
-  <input type="submit" value="Submit" />
-}
-
-@if (ViewBag.Message != null)
-{
-  <script type="text/javascript">
-            window.onload = function () {
-                alert("@ViewBag.Message");
-            };
-  </script>
+  using (Html.BeginForm("CreateEvent", "Events", FormMethod.Post))
+  {
+    <table>
+      @for (int i = 0; i < Model.CheckBoxDataItems.Count(); i++)
+      {
+        <tr>
+          <td>
+            @Html.CheckBoxFor(m => m.CheckBoxDataItems[i].Selected)
+          </td>
+          <td>
+            @Html.DisplayFor(m => m.CheckBoxDataItems[i].Text)
+            @Html.HiddenFor(m => m.CheckBoxDataItems[i].Value)
+            @Html.HiddenFor(m => m.CheckBoxDataItems[i].Text)
+          </td>
+          <td>
+            @Html.TextBoxFor(m => m.DoubleItems.ElementAt(i).Value)
+          </td>
+        </tr>
+      }
+    </table>
+    <br />
+    <input type="submit" value="Далее" />
+  }
 }
