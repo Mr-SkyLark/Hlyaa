@@ -33,13 +33,13 @@ namespace HLyaa.Entities
     public ICollection<Event> Events { get; set; }
     public ICollection<DebtPart> DebtParts { get; set; }
     public ICollection<Payment> Payments { get; set; }
-    public virtual ICollection<EventType> Types { get; set; }
+    public ICollection<UserEventType> UserEventTypes { get; set; }
     public UserInfo()
     {
       DebtParts = new List<DebtPart>();
       Events = new List<Event>();
       Payments = new List<Payment>();
-      Types = new List<EventType>();
+      UserEventTypes = new List<UserEventType>();
     }
 
   }

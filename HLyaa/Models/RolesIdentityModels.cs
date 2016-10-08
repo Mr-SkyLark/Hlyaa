@@ -39,8 +39,8 @@ namespace HLyaa.Models
       roleManager.Create(role2);
 
       // создаем пользователей
-      var adminInfo = new UserInfo { Age = 0, Name = "Галдин Илья", Nick = "admin", BirthdayDate = new DateTime(1992,01,01) };
-      var admin = new ApplicationUser { Email = "somemail@mail.ru", UserName = "admin", UserInfo = adminInfo};
+      var adminInfo = new UserInfo { Age = 0, Name = "Галдин Илья", Nick = "admin", BirthdayDate = new DateTime(1992, 01, 01) };
+      var admin = new ApplicationUser { Email = "somemail@mail.ru", UserName = "admin", UserInfo = adminInfo };
       string password = "ad46D_ewr3";
       var result = userManager.Create(admin, password);
 
@@ -49,6 +49,71 @@ namespace HLyaa.Models
       {
         // добавляем для пользователя роль
         userManager.AddToRole(admin.Id, role1.Name);
+        userManager.AddToRole(admin.Id, role2.Name);
+      }
+
+      // создаем пользователей
+      adminInfo = new UserInfo { Age = 0, Name = "11111 11111", Nick = "1", BirthdayDate = new DateTime(1992, 01, 01) };
+      admin = new ApplicationUser { Email = "1@1.ru", UserName = "1", UserInfo = adminInfo };
+      password = "11111111";
+      result = userManager.Create(admin, password);
+
+      // если создание пользователя прошло успешно
+      if (result.Succeeded)
+      {
+        // добавляем для пользователя роль
+        userManager.AddToRole(admin.Id, role2.Name);
+      }
+
+      // создаем пользователей
+      adminInfo = new UserInfo { Age = 0, Name = "222 22222", Nick = "2", BirthdayDate = new DateTime(1992, 01, 01) };
+      admin = new ApplicationUser { Email = "2@2.ru", UserName = "2", UserInfo = adminInfo };
+      password = "22222222";
+      result = userManager.Create(admin, password);
+
+      // если создание пользователя прошло успешно
+      if (result.Succeeded)
+      {
+        // добавляем для пользователя роль
+        userManager.AddToRole(admin.Id, role2.Name);
+      }
+
+      // создаем пользователей
+      adminInfo = new UserInfo { Age = 0, Name = "33333 33333", Nick = "3", BirthdayDate = new DateTime(1992, 01, 01) };
+      admin = new ApplicationUser { Email = "3@3.ru", UserName = "3", UserInfo = adminInfo };
+      password = "33333333";
+      result = userManager.Create(admin, password);
+
+      // если создание пользователя прошло успешно
+      if (result.Succeeded)
+      {
+        // добавляем для пользователя роль
+        userManager.AddToRole(admin.Id, role2.Name);
+      }
+
+      // создаем пользователей
+      adminInfo = new UserInfo { Age = 0, Name = "4444 44444", Nick = "4", BirthdayDate = new DateTime(1992, 01, 01) };
+      admin = new ApplicationUser { Email = "4@4.ru", UserName = "4", UserInfo = adminInfo };
+      password = "44444444";
+      result = userManager.Create(admin, password);
+
+      // если создание пользователя прошло успешно
+      if (result.Succeeded)
+      {
+        // добавляем для пользователя роль
+        userManager.AddToRole(admin.Id, role2.Name);
+      }
+
+      // создаем пользователей
+      adminInfo = new UserInfo { Age = 0, Name = "555555 55555", Nick = "5", BirthdayDate = new DateTime(1992, 01, 01) };
+      admin = new ApplicationUser { Email = "5@5.ru", UserName = "5", UserInfo = adminInfo };
+      password = "55555555";
+      result = userManager.Create(admin, password);
+
+      // если создание пользователя прошло успешно
+      if (result.Succeeded)
+      {
+        // добавляем для пользователя роль
         userManager.AddToRole(admin.Id, role2.Name);
       }
 

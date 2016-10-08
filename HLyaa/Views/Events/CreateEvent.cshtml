@@ -1,4 +1,4 @@
-﻿@model HLyaa.Models.CheckBoxDoubleModel
+﻿@model HLyaa.Models.CreateNewEventModel
 
 @{
     ViewBag.Title = "Создать событие";
@@ -10,7 +10,10 @@
 @if (Model.CheckBoxDataItems.Count() == Model.DoubleItems.Count())
 {
   using (Html.BeginForm("CreateEvent", "Events", FormMethod.Post))
-  {
+  { 
+    <div>
+      @Html.EditorFor(m => m.EventName)
+    </div>
     <table>
       @for (int i = 0; i < Model.CheckBoxDataItems.Count(); i++)
       {
@@ -24,7 +27,7 @@
             @Html.HiddenFor(m => m.CheckBoxDataItems[i].Text)
           </td>
           <td>
-            @Html.TextBoxFor(m => m.DoubleItems.ElementAt(i).Value)
+            @Html.EditorFor(m => m.DoubleItems.ElementAt(i).Value, new { @type = "number" })
           </td>
         </tr>
       }

@@ -20,7 +20,7 @@
     <div>
         @Html.LabelFor(model => model.Nick)
         <div>
-            @Html.EditorFor(model => model.Nick)
+            @Html.EditorFor(model => model.Nick, new {@readonly= "readonly"})
         </div>
     </div>
     <div>

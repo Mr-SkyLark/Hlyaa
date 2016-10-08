@@ -37,7 +37,7 @@ namespace HLyaa.Controllers
     //GET: Events/CreateEvent
     public ActionResult CreateEvent()
     {
-      CheckBoxDoubleModel model = new CheckBoxDoubleModel();
+      CreateNewEventModel model = new CreateNewEventModel();
       foreach (var user in db.UsersInfo.ToList())
       {
         model.CheckBoxDataItems.Add(new SelectListItem
@@ -50,11 +50,34 @@ namespace HLyaa.Controllers
       return View(model);
     }
     [HttpPost]
-    public ActionResult CreateEvent(CheckBoxDoubleModel model)
+    public ActionResult CreateEvent(CreateNewEventModel model)
     {
-      var newEvent = new Event() { Name = "test", GodDebt = false, DateCreated = DateTime.Now,
-        Price =123.123, Reporter= ControllerHelper.CurrentUserInfo(db, UserManager)};
-      db.Events.Add(newEvent);
+      var newEvent = new Event() { Name = model.EventName, GodDebt = false, DateCreated = DateTime.Now,
+        Reporter= ControllerHelper.CurrentUserInfo(db, UserManager)};
+      newEvent = db.Events.Add(newEvent);
+
+      for (int i = 0; i < model.CheckBoxDataItems.Count(); ++i)
+      {
+        if (model.CheckBoxDataItems[i].Selected)
+        {
+          db.DebtParts.Add(new DebtPart()
+          {
+            Part = null,
+            Summ = model.DoubleItems.ElementAt(i).Value,
+            GlobalFlag = false,
+            Event = newEvent,
+            User = db.UsersInfo.Find(model.DoubleItems.ElementAt(i).Key)
+          });
+          db.DebtParts.Add(new DebtPart()
+          {
+            Part = null,
+            Summ = model.DoubleItems.ElementAt(i).Value,
+            GlobalFlag = false,
+            Event = newEvent,
+            User = db.UsersInfo.Find(model.DoubleItems.ElementAt(i).Key)
+          });
+        }
+      }
       db.SaveChanges();
 
       return View(model);

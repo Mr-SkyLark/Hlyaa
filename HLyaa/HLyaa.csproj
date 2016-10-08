@@ -207,8 +207,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Entities\EventModels.cs" />
-    <Compile Include="Entities\IdentityModels.cs" />
+    <Compile Include="Entities\EventEntity.cs" />
+    <Compile Include="Entities\IdentityEntity.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -247,6 +247,10 @@
     <Compile Include="Migrations\201610031757176_toPostgressMigration.cs" />
     <Compile Include="Migrations\201610031757176_toPostgressMigration.Designer.cs">
       <DependentUpon>201610031757176_toPostgressMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610081336370_newUserEventType.cs" />
+    <Compile Include="Migrations\201610081336370_newUserEventType.Designer.cs">
+      <DependentUpon>201610081336370_newUserEventType.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -360,6 +364,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610031757176_toPostgressMigration.resx">
       <DependentUpon>201610031757176_toPostgressMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610081336370_newUserEventType.resx">
+      <DependentUpon>201610081336370_newUserEventType.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
