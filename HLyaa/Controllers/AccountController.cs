@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using HLyaa.Models;
+using HLyaa.Entities;
 using HLyaa.Logger;
 using HLyaa.Helper;
 

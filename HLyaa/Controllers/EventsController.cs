@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using HLyaa.Logger;
+using HLyaa.Entities;
 using HLyaa.Models;
 using HLyaa.Helper;
 
