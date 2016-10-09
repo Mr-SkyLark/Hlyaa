@@ -216,41 +216,9 @@
     <Compile Include="Logger\ILogger.cs" />
     <Compile Include="Logger\LogUtility.cs" />
     <Compile Include="Logger\NLogLogger.cs" />
-    <Compile Include="Migrations\201606041611568_newMigration.cs" />
-    <Compile Include="Migrations\201606041611568_newMigration.Designer.cs">
-      <DependentUpon>201606041611568_newMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606041754462_addUserInfoMigration.cs" />
-    <Compile Include="Migrations\201606041754462_addUserInfoMigration.Designer.cs">
-      <DependentUpon>201606041754462_addUserInfoMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606041807127_addUserInfoMigration1.cs" />
-    <Compile Include="Migrations\201606041807127_addUserInfoMigration1.Designer.cs">
-      <DependentUpon>201606041807127_addUserInfoMigration1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606191744297_AddEvents.cs" />
-    <Compile Include="Migrations\201606191744297_AddEvents.Designer.cs">
-      <DependentUpon>201606191744297_AddEvents.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606211859063_AddEvents1.cs" />
-    <Compile Include="Migrations\201606211859063_AddEvents1.Designer.cs">
-      <DependentUpon>201606211859063_AddEvents1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606211901094_AddEvents2.cs" />
-    <Compile Include="Migrations\201606211901094_AddEvents2.Designer.cs">
-      <DependentUpon>201606211901094_AddEvents2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606291921309_AddUserType.cs" />
-    <Compile Include="Migrations\201606291921309_AddUserType.Designer.cs">
-      <DependentUpon>201606291921309_AddUserType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201610031757176_toPostgressMigration.cs" />
-    <Compile Include="Migrations\201610031757176_toPostgressMigration.Designer.cs">
-      <DependentUpon>201610031757176_toPostgressMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201610081336370_newUserEventType.cs" />
-    <Compile Include="Migrations\201610081336370_newUserEventType.Designer.cs">
-      <DependentUpon>201610081336370_newUserEventType.cs</DependentUpon>
+    <Compile Include="Migrations\201610091225450_init.cs" />
+    <Compile Include="Migrations\201610091225450_init.Designer.cs">
+      <DependentUpon>201610091225450_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -341,32 +309,8 @@
     <Content Include="Scripts\jquery-3.1.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606041611568_newMigration.resx">
-      <DependentUpon>201606041611568_newMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606041754462_addUserInfoMigration.resx">
-      <DependentUpon>201606041754462_addUserInfoMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606041807127_addUserInfoMigration1.resx">
-      <DependentUpon>201606041807127_addUserInfoMigration1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606191744297_AddEvents.resx">
-      <DependentUpon>201606191744297_AddEvents.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606211859063_AddEvents1.resx">
-      <DependentUpon>201606211859063_AddEvents1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606211901094_AddEvents2.resx">
-      <DependentUpon>201606211901094_AddEvents2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606291921309_AddUserType.resx">
-      <DependentUpon>201606291921309_AddUserType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610031757176_toPostgressMigration.resx">
-      <DependentUpon>201610031757176_toPostgressMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610081336370_newUserEventType.resx">
-      <DependentUpon>201610081336370_newUserEventType.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201610091225450_init.resx">
+      <DependentUpon>201610091225450_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -22,7 +22,7 @@ namespace HLyaa.Models
       return manager;
     }
   }*/
-  public class AppDbInitializer : CreateDatabaseIfNotExists<ApplicationDbContext>
+  public class AppDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
   {
     protected override void Seed(ApplicationDbContext context)
     {

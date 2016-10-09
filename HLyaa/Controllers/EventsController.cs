@@ -40,8 +40,9 @@ namespace HLyaa.Controllers
       CreateNewEventModel model = new CreateNewEventModel();
       foreach (var user in db.UsersInfo.ToList())
       {
-        model.CheckBoxDataItems.Add(user.Id, new CheckBoxItem()
+        model.CheckBoxDataItems.Add(new CheckBoxItem()
         {
+          UserId = user.Id,
           Name = user.Name,
           Data = 0,
           Selected = false
@@ -62,26 +63,27 @@ namespace HLyaa.Controllers
           Reporter = ControllerHelper.CurrentUserInfo(db, UserManager)
         };
         newEvent = db.Events.Add(newEvent);
+        db.SaveChanges();
 
-        foreach (var keypar in model.CheckBoxDataItems)
+        foreach (var item in model.CheckBoxDataItems)
         {
-          if (keypar.Value.Selected)
+          if (item.Selected)
           {
             db.DebtParts.Add(new DebtPart()
             {
               Part = null,
-              Summ = keypar.Value.Data,
+              Summ = item.Data,
               GlobalFlag = false,
               Event = newEvent,
-              User = db.UsersInfo.Find(keypar.Key)
+              User = db.UsersInfo.Find(item.UserId)
             });
             db.DebtParts.Add(new DebtPart()
             {
               Part = null,
-              Summ = -keypar.Value.Data,
+              Summ = - item.Data,
               GlobalFlag = false,
               Event = newEvent,
-              User = db.UsersInfo.Find(keypar.Key)
+              User = db.UsersInfo.Find(item.UserId)
             });
           }
         }

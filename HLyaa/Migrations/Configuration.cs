@@ -10,7 +10,6 @@ namespace HLyaa.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "HLyaa.Models.ApplicationDbContext";
         }
 
         protected override void Seed(HLyaa.Models.ApplicationDbContext context)

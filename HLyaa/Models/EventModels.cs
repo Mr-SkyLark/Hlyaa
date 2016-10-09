@@ -8,6 +8,7 @@ namespace HLyaa.Models
 {
   public class CheckBoxItem
   {
+    public int UserId { get; set; }
     public string Name { get; set; }
     public double Data { get; set; }
     public bool Selected { get; set; }
@@ -17,10 +18,10 @@ namespace HLyaa.Models
     [Required(ErrorMessage = "Введите заголовок события")]
     [Display(Name = "Заголовок события")]
     public string EventName { get; set; }
-    public Dictionary<int, CheckBoxItem> CheckBoxDataItems { get; set; }
+    public List<CheckBoxItem> CheckBoxDataItems { get; set; }
     public CreateNewEventModel()
     {
-      CheckBoxDataItems = new Dictionary<int, CheckBoxItem>();
+      CheckBoxDataItems = new List<CheckBoxItem>();
     }
 
   }
