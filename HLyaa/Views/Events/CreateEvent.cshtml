@@ -7,7 +7,7 @@
 
 <h2>Создание события</h2>
 
-@if (Model.CheckBoxDataItems.Count() != 0)
+@if (Model.BuyerDataItems.Count() != 0)
 {
   using (Html.BeginForm("CreateEvent", "Events", FormMethod.Post))
   {
@@ -19,20 +19,16 @@
       </div>
     </div>
     <table>
-      @for (int i = 0; i < Model.CheckBoxDataItems.Count(); ++i)
+      @for (int i = 0; i < Model.BuyerDataItems.Count(); ++i)
       {
         <tr>
           <td>
-            @Html.CheckBoxFor(model => model.CheckBoxDataItems[i].Selected)
+            @Html.DisplayFor(model => model.BuyerDataItems[i].Name)
+            @Html.HiddenFor(model => model.BuyerDataItems[i].UserId)
+            @Html.HiddenFor(model => model.BuyerDataItems[i].Name)
           </td>
           <td>
-            @Html.DisplayFor(model => model.CheckBoxDataItems[i].Name)
-            @Html.HiddenFor(model => model.CheckBoxDataItems[i].UserId)
-            @Html.HiddenFor(model => model.CheckBoxDataItems[i].Selected)
-            @Html.HiddenFor(model => model.CheckBoxDataItems[i].Name)     
-          </td>
-          <td>
-            @Html.TextBoxFor(model => model.CheckBoxDataItems[i].Data, new { @type = "number" })
+            @Html.TextBoxFor(model => model.BuyerDataItems[i].Data, new { @type = "number" })
           </td>
         </tr>
       }
