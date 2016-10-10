@@ -298,6 +298,8 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\AddUserInfo.cshtml" />
     <Content Include="Views\Events\CreateEvent.cshtml" />
+    <Content Include="Views\Events\SetDebt.cshtml" />
+    <Content Include="Views\Events\SetPartAndPrice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

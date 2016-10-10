@@ -38,7 +38,8 @@ namespace HLyaa.Controllers
     public ActionResult CreateEvent()
     {
       CreateNewEventModel model = new CreateNewEventModel();
-      foreach (var user in db.UsersInfo.ToList())
+      var usersList = db.UsersInfo.OrderBy(m => m.Name);
+      foreach (var user in usersList)
       {
         model.BuyerDataItems.Add(new BuyerDataItem()
         {
@@ -78,17 +79,68 @@ namespace HLyaa.Controllers
             db.DebtParts.Add(new DebtPart()
             {
               Part = null,
-              Summ = - item.Data,
+              Summ = -item.Data,
               GlobalFlag = false,
               Event = newEvent,
               User = db.UsersInfo.Find(item.UserId)
             });
           }
         }
-        db.SaveChanges();
-        return View(model);
+        try
+        {
+          db.SaveChanges();
+          logger.Info(String.Format("User {0} add new event {1}", newEvent.Reporter.Nick, newEvent.Name));
+        }
+        catch (Exception)
+        {
+          logger.Error("DataBase error!");
+          logger.Error(String.Format("User {0} add new event {1}", newEvent.Reporter.Nick, newEvent.Name));
+          return View(model);          
+        }
+        return RedirectToAction("SetDebt", "Events", new { eventId = newEvent.Id });
       }
 
+      return View(model);
+    }
+
+
+    //GET: Events/SetDebt
+    public ActionResult SetDebt(int eventId)
+    {
+      SetDebtModel model = new SetDebtModel();
+      var usersList = db.UsersInfo.OrderBy(m => m.Name).ToList();
+      //List<DebtPart> debtParts = db.DebtParts.Where(m => m.EventId == tempVariable && m => m.UserId == user.Id)
+          //{
+        //selected = ((d.Part > 0) || (d.Summ < 0).ToList();
+      foreach (var user in usersList)
+      {        
+        var debtor = db.DebtParts.SingleOrDefault(m => m.EventId == eventId &&
+          m.UserId == user.Id && ((m.Part > 0) || (m.Summ < 0)));
+        bool selected = (debtor != null);
+        model.DebtorCoiseItems.Add(new DebtorCoiseItem()
+        {
+          UserId = user.Id,
+          Name = user.Name,
+          Selected = selected
+        });
+      }
+      return View(model);
+    }
+    [HttpPost]
+    public ActionResult SetDebt(SetDebtModel model)
+    {
+
+      try
+      {
+        db.SaveChanges();
+        //logger.Debug(String.Format("User {0} add new event {1}", newEvent.Reporter.Nick, newEvent.Name));
+      }
+      catch (Exception)
+      {
+        logger.Error("DataBase error!");
+        //logger.Error(String.Format("User {0} add new event {1}", newEvent.Reporter.Nick, newEvent.Name));
+        return View(model);
+      }
       return View(model);
     }
   }
