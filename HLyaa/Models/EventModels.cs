@@ -33,6 +33,7 @@ namespace HLyaa.Models
   }
   public class SetDebtModel
   {
+    public int EventId { get; set; }
     public List<DebtorCoiseItem> DebtorCoiseItems { get; set; }
     public SetDebtModel()
     {
@@ -49,6 +50,7 @@ namespace HLyaa.Models
   }
   public class SetPartModel
   {
+    public int EventId { get; set; }
     public List<DebtorDataItem> DebtorDataItems { get; set; }
     public SetPartModel()
     {

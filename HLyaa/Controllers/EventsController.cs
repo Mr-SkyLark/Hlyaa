@@ -50,6 +50,7 @@ namespace HLyaa.Controllers
       }
       return View(model);
     }
+    //POST: Events/CreateEvent
     [HttpPost]
     public ActionResult CreateEvent(CreateNewEventModel model)
     {
@@ -107,11 +108,8 @@ namespace HLyaa.Controllers
     //GET: Events/SetDebt
     public ActionResult SetDebt(int eventId)
     {
-      SetDebtModel model = new SetDebtModel();
+      SetDebtModel model = new SetDebtModel() { EventId = eventId };
       var usersList = db.UsersInfo.OrderBy(m => m.Name).ToList();
-      //List<DebtPart> debtParts = db.DebtParts.Where(m => m.EventId == tempVariable && m => m.UserId == user.Id)
-          //{
-        //selected = ((d.Part > 0) || (d.Summ < 0).ToList();
       foreach (var user in usersList)
       {        
         var debtor = db.DebtParts.SingleOrDefault(m => m.EventId == eventId &&
@@ -126,21 +124,94 @@ namespace HLyaa.Controllers
       }
       return View(model);
     }
+    //POST: Events/SetDebt
     [HttpPost]
     public ActionResult SetDebt(SetDebtModel model)
     {
+      string retList = "";
+      bool warningFlag = true;
+      foreach(var item in model.DebtorCoiseItems)
+      {
+        
+        if (item.Selected == false)
+        {
+          var list = db.DebtParts.Where(m => m.EventId == model.EventId &&
+            m.UserId == item.UserId && ((m.Part > 0) || (m.Summ < 0))).ToList();
 
-      try
-      {
-        db.SaveChanges();
-        //logger.Debug(String.Format("User {0} add new event {1}", newEvent.Reporter.Nick, newEvent.Name));
+          db.DebtParts.RemoveRange(list);
+          try
+          {
+            db.SaveChanges();
+            logger.Debug(String.Format("Remove user {0} in event {1}", item.UserId, model.EventId));
+          }
+          catch (Exception)
+          {
+            logger.Error("DataBase error!");
+            logger.Error(String.Format("Remove user {0} in event {1}", item.UserId, model.EventId));
+          }
+        }
+        else
+        {
+          retList += item.UserId.ToString() + ",";
+          warningFlag = false;
+        }
       }
-      catch (Exception)
+      
+      if(warningFlag)
       {
-        logger.Error("DataBase error!");
-        //logger.Error(String.Format("User {0} add new event {1}", newEvent.Reporter.Nick, newEvent.Name));
         return View(model);
       }
+      if (retList.Count() > 0)
+      {
+        retList = retList.Substring(0, retList.Length - 1);
+      }
+      var test = retList.Split(',').Select(int.Parse).ToList();
+      return RedirectToAction("SetPartAndPrice", "Events", new { userList = retList, eventId = model.EventId });
+    }
+
+    public class IntListModelBinder : DefaultModelBinder
+    {
+      public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+      {
+        var value = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
+        if (value == null || string.IsNullOrEmpty(value.AttemptedValue))
+        {
+          return null;
+        }
+
+        return value
+            .AttemptedValue
+            .Split(',')
+            .Select(int.Parse)
+            .ToList();
+      }
+    }
+
+    //GET: Events/SetPartAndPrice
+    public ActionResult SetPartAndPrice([ModelBinder(typeof(IntListModelBinder))]List<int> userList, int eventId)
+    {
+      
+      SetPartModel model = new SetPartModel() { EventId = eventId };
+      var usersList = db.UsersInfo.OrderBy(m => m.Name).ToList();
+      foreach (var user in usersList)
+      {
+        if (userList.Contains(user.Id))
+        {
+          model.DebtorDataItems.Add(new DebtorDataItem()
+          {
+            UserId = user.Id,
+            Name = user.Name,
+            DeptPart = 1,
+            DeptSumm = 0
+          });
+        }
+      }
+      return View(model);
+    }
+    //POST: Events/SetPartAndPrice
+    [HttpPost]
+    public ActionResult SetPartAndPrice(SetPartModel model)
+    {
       return View(model);
     }
   }
