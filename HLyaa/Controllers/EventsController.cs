@@ -201,8 +201,8 @@ namespace HLyaa.Controllers
           {
             UserId = user.Id,
             Name = user.Name,
-            DeptPart = 1,
-            DeptSumm = 0
+            DebtPart = 1,
+            DebtSum = 0
           });
         }
       }
@@ -212,7 +212,98 @@ namespace HLyaa.Controllers
     [HttpPost]
     public ActionResult SetPartAndPrice(SetPartModel model)
     {
+      int debtPartCount = 0;
+      double debtSumSum = 0;
+      double debtPartSum = 0;
+
+      foreach (var item in model.DebtorDataItems)
+      {        
+        if (item.DebtPart > 0)
+        {
+          ++debtPartCount;
+          debtPartSum += item.DebtPart;
+        }
+        else if (item.DebtSum > 0)
+        {
+          debtSumSum += item.DebtSum;
+        }
+      }
+
+      double globalSum = db.DebtParts.Where(m => m.EventId == model.EventId && m.Summ > 0).Sum(m => m.Summ);
+      if(debtSumSum >globalSum)
+      {
+        return View(model);
+      }
+
+      double calcSum = globalSum - debtSumSum;
+      foreach (var item in model.DebtorDataItems)
+      {
+        var debtor = db.DebtParts.SingleOrDefault(m => m.EventId == model.EventId &&
+          m.UserId == item.UserId && ((m.Part > 0) || (m.Summ < 0)));
+        if (item.DebtPart > 0)
+        {
+          double realSum = (item.DebtPart * calcSum) / debtPartSum;
+          if (debtor == null)
+          {
+            debtor = db.DebtParts.Add(new DebtPart()
+            {
+              Part = item.DebtPart,
+              Summ = -realSum,
+              GlobalFlag = false,
+              EventId = model.EventId,
+              UserId = item.UserId
+            });
+          }
+          else
+          {
+            debtor.Part = item.DebtPart;
+            debtor.Summ = -realSum;
+          }
+        }
+        else if(item.DebtSum > 0)
+        {          
+          if (debtor == null)
+          {
+            debtor = db.DebtParts.Add(new DebtPart()
+            {
+              Part = null,
+              Summ = -item.DebtSum,
+              GlobalFlag = false,
+              EventId = model.EventId,
+              UserId = item.UserId
+            });
+          }
+          else
+          {
+            debtor.Part = null;
+            debtor.Summ = -item.DebtSum;
+          }
+        }
+      }
+
+      double test1 = db.DebtParts.Where(m => m.EventId == model.EventId).Sum(m => m.Summ);
+
+      try
+      {
+        db.SaveChanges();
+        logger.Info(String.Format("Compleate create event {0}", model.EventId));
+      }
+      catch (Exception)
+      {
+        logger.Error("DataBase error!");
+        logger.Error(String.Format("Compleate create event {0}", model.EventId));
+        return View(model);
+      }
+      double test2 = db.DebtParts.Where(m => m.EventId == model.EventId).Sum(m => m.Summ);
+      if (test2 != 0)
+      {
+        logger.Fatal("Logic error!");
+        logger.Fatal(String.Format("Debt sum is not equal 0. Event {0}", model.EventId));
+        return View(model);
+      }
+
       return View(model);
     }
+
   }
 }

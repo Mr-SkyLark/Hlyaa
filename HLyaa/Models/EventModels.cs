@@ -45,8 +45,8 @@ namespace HLyaa.Models
   {
     public int UserId { get; set; }
     public string Name { get; set; }
-    public double DeptPart { get; set; }
-    public double DeptSumm { get; set; }
+    public double DebtPart { get; set; }
+    public double DebtSum { get; set; }
   }
   public class SetPartModel
   {

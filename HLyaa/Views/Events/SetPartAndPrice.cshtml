@@ -21,10 +21,10 @@
             @Html.HiddenFor(model => model.DebtorDataItems[i].Name)
           </td>
           <td>
-            @Html.TextBoxFor(model => model.DebtorDataItems[i].DeptPart, new { @type = "number" })
+            @Html.TextBoxFor(model => model.DebtorDataItems[i].DebtPart, new { @type = "number" })
           </td>
           <td>
-            @Html.TextBoxFor(model => model.DebtorDataItems[i].DeptSumm, new { @type = "number" })
+            @Html.TextBoxFor(model => model.DebtorDataItems[i].DebtSum, new { @type = "number" })
           </td>
         </tr>
       }
