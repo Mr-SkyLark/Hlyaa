@@ -6,19 +6,25 @@
 }
 
 <h2>Создание события</h2>
+<h3>Внесение денежных взносов</h3>
 
 @if (Model.BuyerDataItems.Count() != 0)
 {
   using (Html.BeginForm("CreateEvent", "Events", FormMethod.Post))
   {
-    @Html.ValidationSummary()
+    @Html.ValidationSummary(true)
     <div>
       @Html.LabelFor(model => model.EventName)
       <div>
         @Html.EditorFor(model => model.EventName)
+        @Html.ValidationMessageFor(model => model.EventName)
       </div>
     </div>
     <table>
+      <tr>
+        <th>Имя пользователя</th>
+        <th>Денежный взнос</th>
+      </tr>
       @for (int i = 0; i < Model.BuyerDataItems.Count(); ++i)
       {
         <tr>
@@ -28,7 +34,8 @@
             @Html.HiddenFor(model => model.BuyerDataItems[i].Name)
           </td>
           <td>
-            @Html.TextBoxFor(model => model.BuyerDataItems[i].Data, new { @type = "number" })
+            @Html.TextBoxFor(model => model.BuyerDataItems[i].Data, new { @type = "number",  @step = "0.1"})
+            @Html.ValidationMessageFor(model => model.BuyerDataItems[i].Data)
           </td>
         </tr>
       }

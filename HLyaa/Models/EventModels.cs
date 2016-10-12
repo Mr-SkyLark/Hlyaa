@@ -11,6 +11,7 @@ namespace HLyaa.Models
   {
     public int UserId { get; set; }
     public string Name { get; set; }
+    [Range(0, 100000, ErrorMessage = "Предел денежного взноса на одну персону: от 0 до 100000") ]
     public double Data { get; set; }
   }
   public class CreateNewEventModel
@@ -45,7 +46,9 @@ namespace HLyaa.Models
   {
     public int UserId { get; set; }
     public string Name { get; set; }
+    [Range(0, 100000, ErrorMessage = "Предел разумной части задолженности на одну персону: от 0 до 100000")]
     public double DebtPart { get; set; }
+    [Range(0, 100000, ErrorMessage = "Предел суммы задолженности на одну персону: от 0 до 100000")]
     public double DebtSum { get; set; }
   }
   public class SetPartModel

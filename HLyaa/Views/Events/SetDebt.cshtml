@@ -5,6 +5,7 @@
 }
 
 <h2>Создание события</h2>
+<h3>Выбор должников</h3>
 
 @if (Model.DebtorCoiseItems.Count() != 0)
 {
@@ -12,6 +13,10 @@
   {
     @Html.HiddenFor(model => model.EventId)
     <table>
+      <tr>
+        <th>Выбор</th>
+        <th>Имя пользователя</th>
+      </tr>
       @for (int i = 0; i < Model.DebtorCoiseItems.Count(); ++i)
       {
         <tr>

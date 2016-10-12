@@ -10,29 +10,33 @@
     @Html.AntiForgeryToken()
     <h4>Регистрация нового пользователя.</h4>
     <hr />
-    @Html.ValidationSummary()
+    @Html.ValidationSummary(true)
     <div>
         @Html.LabelFor(m => m.UserName)
         <div>
-            @Html.TextBoxFor(m => m.UserName)
+          @Html.TextBoxFor(m => m.UserName)
+          @Html.ValidationMessageFor(m => m.UserName)
         </div>
     </div>
     <div>
         @Html.LabelFor(m => m.EmailAddress)
         <div>
-            @Html.TextBoxFor(m => m.EmailAddress)
+          @Html.TextBoxFor(m => m.EmailAddress)
+          @Html.ValidationMessageFor(m => m.EmailAddress)
         </div>
     </div>
     <div>
         @Html.LabelFor(m => m.Password)
         <div>
-            @Html.PasswordFor(m => m.Password)
+          @Html.PasswordFor(m => m.Password)
+          @Html.ValidationMessageFor(m => m.Password)
         </div>
     </div>
     <div>
         @Html.LabelFor(m => m.ConfirmPassword)
         <div>
-            @Html.PasswordFor(m => m.ConfirmPassword)
+          @Html.PasswordFor(m => m.ConfirmPassword)
+          @Html.ValidationMessageFor(m => m.ConfirmPassword)
         </div>
     </div>
     <div>
