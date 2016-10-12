@@ -281,8 +281,6 @@ namespace HLyaa.Controllers
         }
       }
 
-      double test1 = db.DebtParts.Where(m => m.EventId == model.EventId).Sum(m => m.Summ);
-
       try
       {
         db.SaveChanges();
@@ -295,7 +293,7 @@ namespace HLyaa.Controllers
         return View(model);
       }
       double test2 = db.DebtParts.Where(m => m.EventId == model.EventId).Sum(m => m.Summ);
-      if (test2 != 0)
+      if (test2 > -0.005 && test2 < 0.005)
       {
         logger.Fatal("Logic error!");
         logger.Fatal(String.Format("Debt sum is not equal 0. Event {0}", model.EventId));

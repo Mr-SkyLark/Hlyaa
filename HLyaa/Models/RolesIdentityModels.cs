@@ -31,12 +31,16 @@ namespace HLyaa.Models
       var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
 
       // создаем две роли
-      var role1 = new IdentityRole { Name = "admin" };
-      var role2 = new IdentityRole { Name = "user" };
+      var adminRrole = new IdentityRole { Name = "Администратор" };
+      var bankManRole = new IdentityRole { Name = "Банкир" };
+      var userRole = new IdentityRole { Name = "Пользователь" };
+      var studentRole = new IdentityRole { Name = "Студент" };
 
       // добавляем роли в бд
-      roleManager.Create(role1);
-      roleManager.Create(role2);
+      roleManager.Create(adminRrole);
+      roleManager.Create(bankManRole);
+      roleManager.Create(userRole);
+      roleManager.Create(studentRole);
 
       // создаем пользователей
       var adminInfo = new UserInfo { Age = 0, Name = "Галдин Илья", Nick = "admin", BirthdayDate = new DateTime(1992, 01, 01) };
@@ -48,8 +52,9 @@ namespace HLyaa.Models
       if (result.Succeeded)
       {
         // добавляем для пользователя роль
-        userManager.AddToRole(admin.Id, role1.Name);
-        userManager.AddToRole(admin.Id, role2.Name);
+        userManager.AddToRole(admin.Id, adminRrole.Name);
+        userManager.AddToRole(admin.Id, bankManRole.Name);
+        userManager.AddToRole(admin.Id, userRole.Name);
       }
 
       // создаем пользователей
@@ -62,7 +67,7 @@ namespace HLyaa.Models
       if (result.Succeeded)
       {
         // добавляем для пользователя роль
-        userManager.AddToRole(admin.Id, role2.Name);
+        userManager.AddToRole(admin.Id, userRole.Name);
       }
 
       // создаем пользователей
@@ -75,7 +80,8 @@ namespace HLyaa.Models
       if (result.Succeeded)
       {
         // добавляем для пользователя роль
-        userManager.AddToRole(admin.Id, role2.Name);
+        userManager.AddToRole(admin.Id, userRole.Name);
+        userManager.AddToRole(admin.Id, studentRole.Name);
       }
 
       // создаем пользователей
@@ -88,7 +94,7 @@ namespace HLyaa.Models
       if (result.Succeeded)
       {
         // добавляем для пользователя роль
-        userManager.AddToRole(admin.Id, role2.Name);
+        userManager.AddToRole(admin.Id, userRole.Name);
       }
 
       // создаем пользователей
@@ -101,7 +107,7 @@ namespace HLyaa.Models
       if (result.Succeeded)
       {
         // добавляем для пользователя роль
-        userManager.AddToRole(admin.Id, role2.Name);
+        userManager.AddToRole(admin.Id, userRole.Name);
       }
 
       // создаем пользователей
@@ -114,7 +120,7 @@ namespace HLyaa.Models
       if (result.Succeeded)
       {
         // добавляем для пользователя роль
-        userManager.AddToRole(admin.Id, role2.Name);
+        userManager.AddToRole(admin.Id, userRole.Name);
       }
 
       base.Seed(context);

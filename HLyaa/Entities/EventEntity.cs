@@ -22,6 +22,7 @@ namespace HLyaa.Entities
   public class DebtPart
   {
     public int Id { get; set; }
+    public bool Accept { get; set; }
     public double? Part { get; set; }
     public double Summ { get; set; }
     public bool GlobalFlag { get; set; }
@@ -32,12 +33,14 @@ namespace HLyaa.Entities
     public ICollection<Payment> Payments { get; set; }
     public DebtPart()
     {
+      Accept = false;
       Payments = new List<Payment>();
     }
   }
   public class Payment
   {
     public int Id { get; set; }
+    public bool Accept { get; set; }
     public double Summ { get; set; }
     public bool CompleteFlag { get; set; }
     public int? UserId { get; set; }
