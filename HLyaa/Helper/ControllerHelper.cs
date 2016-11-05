@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Security.Claims;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using HLyaa.Models;
@@ -13,10 +14,29 @@ namespace HLyaa.Helper
 {
   public class ControllerHelper
   {
-    ControllerHelper()
+    private static ApplicationDbContext UsersContext;
+    private static UserManager<ApplicationUser> UserManager;
+    private static NLogLogger logger = new NLogLogger();
+    public ControllerHelper()
     {
+      UsersContext = new ApplicationDbContext();
+      UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(UsersContext));
     }
-    public static UserInfo CurrentUserInfo(ApplicationDbContext db, UserManager<ApplicationUser> UserManager)
+    public List<string> getRolesByUserInfoId(int userInfoId)
+    {
+      var userInfo =  UsersContext.UsersInfo.ToList().FirstOrDefault(m => m.Id == userInfoId);
+      IList<string> roles = new List<string> { "Роль не определена" };
+      ApplicationUser user = userInfo.ApplicationUser;
+      if (user != null)
+        roles = UserManager.GetRoles(user.Id);
+      return roles.ToList();
+    }
+
+    public List<UserInfo> getUserInfoList()
+    {
+      return UsersContext.UsersInfo.ToList();
+    }
+    public UserInfo CurrentUserInfo()
     {
       var uId = HttpContext.Current.User.Identity.GetUserId();
       if (uId == null)
@@ -30,10 +50,8 @@ namespace HLyaa.Helper
         logger.Warn(String.Format("User = null"));
         return null;
       }
-      return curUser;
-    }
-
-    private static NLogLogger logger = new NLogLogger();    
+      return curUser.ToList().First();
+    }      
 
   }
 }

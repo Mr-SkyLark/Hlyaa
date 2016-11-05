@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using System.Data.Entity;
+using System.Collections.Generic;
 using HLyaa.Entities;
 
 namespace HLyaa.Models
@@ -22,7 +23,9 @@ namespace HLyaa.Models
       return manager;
     }
   }*/
-  public class AppDbInitializer : CreateDatabaseIfNotExists<ApplicationDbContext>
+  public class AppDbInitializer :
+    DropCreateDatabaseAlways<ApplicationDbContext> 
+    //CreateDatabaseIfNotExists<ApplicationDbContext>
   {
     protected override void Seed(ApplicationDbContext context)
     {
@@ -43,84 +46,85 @@ namespace HLyaa.Models
       roleManager.Create(studentRole);
 
       // создаем пользователей
-      var adminInfo = new UserInfo { Age = 0, Name = "Галдин Илья", Nick = "admin", BirthdayDate = new DateTime(1992, 01, 01) };
-      var admin = new ApplicationUser { Email = "somemail@mail.ru", UserName = "admin", UserInfo = adminInfo };
-      string password = "ad46D_ewr3";
-      var result = userManager.Create(admin, password);
+      var userInfo = new UserInfo { Name = "Галдин Илья", Nick = "admin", BirthdayDate = new DateTime(1992, 01, 01) };
+      var bankUserInfo = new UserInfo { Name = "Банк", Nick = "bank", BirthdayDate = userInfo.BirthdayDate };
+      var user = new ApplicationUser { Email = "somemail@mail.ru", UserName = "admin", UserInfo = new List<UserInfo> { userInfo, bankUserInfo } };
+      string password = "joSker1708";
+      var result = userManager.Create(user, password);
 
       // если создание пользователя прошло успешно
       if (result.Succeeded)
       {
         // добавляем для пользователя роль
-        userManager.AddToRole(admin.Id, adminRrole.Name);
-        userManager.AddToRole(admin.Id, bankManRole.Name);
-        userManager.AddToRole(admin.Id, userRole.Name);
+        userManager.AddToRole(user.Id, adminRrole.Name);
+        userManager.AddToRole(user.Id, bankManRole.Name);
+        userManager.AddToRole(user.Id, userRole.Name);
       }
 
       // создаем пользователей
-      adminInfo = new UserInfo { Age = 0, Name = "11111 11111", Nick = "1", BirthdayDate = new DateTime(1992, 01, 01) };
-      admin = new ApplicationUser { Email = "1@1.ru", UserName = "1", UserInfo = adminInfo };
+      userInfo = new UserInfo { Name = "11111 11111", Nick = "1", BirthdayDate = new DateTime(1992, 01, 01) };
+      user = new ApplicationUser { Email = "1@1.ru", UserName = "1", UserInfo = new List<UserInfo> { userInfo } };
       password = "11111111";
-      result = userManager.Create(admin, password);
+      result = userManager.Create(user, password);
 
       // если создание пользователя прошло успешно
       if (result.Succeeded)
       {
         // добавляем для пользователя роль
-        userManager.AddToRole(admin.Id, userRole.Name);
+        userManager.AddToRole(user.Id, userRole.Name);
       }
 
       // создаем пользователей
-      adminInfo = new UserInfo { Age = 0, Name = "222 22222", Nick = "2", BirthdayDate = new DateTime(1992, 01, 01) };
-      admin = new ApplicationUser { Email = "2@2.ru", UserName = "2", UserInfo = adminInfo };
+      userInfo = new UserInfo { Name = "222 22222", Nick = "2", BirthdayDate = new DateTime(1992, 01, 01) };
+      user = new ApplicationUser { Email = "2@2.ru", UserName = "2", UserInfo = new List<UserInfo> { userInfo } };
       password = "22222222";
-      result = userManager.Create(admin, password);
+      result = userManager.Create(user, password);
 
       // если создание пользователя прошло успешно
       if (result.Succeeded)
       {
         // добавляем для пользователя роль
-        userManager.AddToRole(admin.Id, userRole.Name);
-        userManager.AddToRole(admin.Id, studentRole.Name);
+        userManager.AddToRole(user.Id, userRole.Name);
+        userManager.AddToRole(user.Id, studentRole.Name);
       }
 
       // создаем пользователей
-      adminInfo = new UserInfo { Age = 0, Name = "33333 33333", Nick = "3", BirthdayDate = new DateTime(1992, 01, 01) };
-      admin = new ApplicationUser { Email = "3@3.ru", UserName = "3", UserInfo = adminInfo };
+      userInfo = new UserInfo { Name = "33333 33333", Nick = "3", BirthdayDate = new DateTime(1992, 01, 01) };
+      user = new ApplicationUser { Email = "3@3.ru", UserName = "3", UserInfo = new List<UserInfo> { userInfo } };
       password = "33333333";
-      result = userManager.Create(admin, password);
+      result = userManager.Create(user, password);
 
       // если создание пользователя прошло успешно
       if (result.Succeeded)
       {
         // добавляем для пользователя роль
-        userManager.AddToRole(admin.Id, userRole.Name);
+        userManager.AddToRole(user.Id, userRole.Name);
       }
 
       // создаем пользователей
-      adminInfo = new UserInfo { Age = 0, Name = "4444 44444", Nick = "4", BirthdayDate = new DateTime(1992, 01, 01) };
-      admin = new ApplicationUser { Email = "4@4.ru", UserName = "4", UserInfo = adminInfo };
+      userInfo = new UserInfo { Name = "4444 44444", Nick = "4", BirthdayDate = new DateTime(1992, 01, 01) };
+      user = new ApplicationUser { Email = "4@4.ru", UserName = "4", UserInfo = new List<UserInfo> { userInfo } };
       password = "44444444";
-      result = userManager.Create(admin, password);
+      result = userManager.Create(user, password);
 
       // если создание пользователя прошло успешно
       if (result.Succeeded)
       {
         // добавляем для пользователя роль
-        userManager.AddToRole(admin.Id, userRole.Name);
+        userManager.AddToRole(user.Id, userRole.Name);
       }
 
       // создаем пользователей
-      adminInfo = new UserInfo { Age = 0, Name = "555555 55555", Nick = "5", BirthdayDate = new DateTime(1992, 01, 01) };
-      admin = new ApplicationUser { Email = "5@5.ru", UserName = "5", UserInfo = adminInfo };
+      userInfo = new UserInfo { Name = "555555 55555", Nick = "5", BirthdayDate = new DateTime(1992, 01, 01) };
+      user = new ApplicationUser { Email = "5@5.ru", UserName = "5", UserInfo = new List<UserInfo> { userInfo } };
       password = "55555555";
-      result = userManager.Create(admin, password);
+      result = userManager.Create(user, password);
 
       // если создание пользователя прошло успешно
       if (result.Succeeded)
       {
         // добавляем для пользователя роль
-        userManager.AddToRole(admin.Id, userRole.Name);
+        userManager.AddToRole(user.Id, userRole.Name);
       }
 
       base.Seed(context);

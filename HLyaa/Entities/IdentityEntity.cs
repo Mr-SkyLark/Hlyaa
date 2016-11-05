@@ -3,6 +3,8 @@ using Microsoft.AspNet.Identity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System;
 
@@ -13,7 +15,7 @@ namespace HLyaa.Entities
   public class ApplicationUser : IdentityUser
   {
 
-    public virtual UserInfo UserInfo { get; set; }
+    public virtual ICollection<UserInfo> UserInfo { get; set; }
     public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
     {
       var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
@@ -23,9 +25,10 @@ namespace HLyaa.Entities
 
   public class UserInfo
   {
-
     public int Id { get; set; }
-    public int? Age { get; set; }
+    [ForeignKey("ApplicationUserId")]
+    public virtual ApplicationUser ApplicationUser { get; set; }
+    public string ApplicationUserId { get; set; }    
     public DateTime? BirthdayDate { get; set; }
     public string Name { get; set; }
     public string Nick { get; set; }

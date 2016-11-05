@@ -16,6 +16,7 @@ namespace HLyaa.Controllers
   {
     private static NLogLogger logger = new NLogLogger();
     private static ApplicationDbContext db = new ApplicationDbContext();
+    private static ControllerHelper userHelper = new ControllerHelper();
 
     public EventsController()
     : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db)))
@@ -61,7 +62,7 @@ namespace HLyaa.Controllers
           Name = model.EventName,
           GodDebt = false,
           DateCreated = DateTime.Now,
-          Reporter = ControllerHelper.CurrentUserInfo(db, UserManager)
+          Reporter = userHelper.CurrentUserInfo()
         };
         newEvent = db.Events.Add(newEvent);
 

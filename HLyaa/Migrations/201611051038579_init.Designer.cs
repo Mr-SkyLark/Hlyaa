@@ -13,7 +13,7 @@ namespace HLyaa.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201610091225450_init"; }
+            get { return "201611051038579_init"; }
         }
         
         string IMigrationMetadata.Source

@@ -26,6 +26,8 @@ namespace HLyaa.Controllers
 
     private static ApplicationDbContext db = new ApplicationDbContext();
 
+    private static ControllerHelper userHelper = new ControllerHelper();
+
     public AccountController()
     : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db)))
     {
@@ -93,7 +95,8 @@ namespace HLyaa.Controllers
         logger.Info(String.Format("User {0} is registred", model.UserName));
         var userInfo = new UserInfo() { Nick = model.UserName };
         var user = new ApplicationUser() { UserName = model.UserName, Email = model.EmailAddress,
-          UserInfo = userInfo};
+          UserInfo = new List<UserInfo>() { userInfo }
+        };
         var result = await UserManager.CreateAsync(user, model.Password);
         if (result.Succeeded)
         {
@@ -116,7 +119,7 @@ namespace HLyaa.Controllers
     // GET: /Account/AddUserInfo
     public ActionResult AddUserInfo()
     {
-      var curUser = ControllerHelper.CurrentUserInfo(db, UserManager);
+      var curUser = userHelper.CurrentUserInfo();
       if (curUser == null)
       {
         return HttpNotFound();
@@ -131,7 +134,7 @@ namespace HLyaa.Controllers
     [ValidateAntiForgeryToken]
     public ActionResult AddUserInfo(AddUserInfoViewModel viewModel)
     {
-      var curUser = ControllerHelper.CurrentUserInfo(db, UserManager);
+      var curUser = userHelper.CurrentUserInfo();
       if (curUser == null)
       {
         return HttpNotFound();
@@ -437,23 +440,6 @@ namespace HLyaa.Controllers
       {
         return RedirectToAction("Index", "Home");
       }
-    }
-
-    public UserInfo CurrentUserInfo()
-    {
-      var uId = User.Identity.GetUserId();
-      if (uId == null)
-      {
-        logger.Error(String.Format("uId = null"));
-        return null;
-      }
-      var curUser = UserManager.FindById(User.Identity.GetUserId()).UserInfo;
-      if (curUser == null)
-      {
-        logger.Warn(String.Format("User = null"));
-        return null;
-      }
-      return curUser;
     }
 
     private class ChallengeResult : HttpUnauthorizedResult
