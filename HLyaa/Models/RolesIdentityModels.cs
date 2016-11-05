@@ -24,8 +24,8 @@ namespace HLyaa.Models
     }
   }*/
   public class AppDbInitializer :
-    DropCreateDatabaseAlways<ApplicationDbContext> 
-    //CreateDatabaseIfNotExists<ApplicationDbContext>
+    //DropCreateDatabaseAlways<ApplicationDbContext> 
+    CreateDatabaseIfNotExists<ApplicationDbContext>
   {
     protected override void Seed(ApplicationDbContext context)
     {

@@ -26,7 +26,7 @@ namespace HLyaa.Controllers
 
     private static ApplicationDbContext db = new ApplicationDbContext();
 
-    private static ControllerHelper userHelper = new ControllerHelper();
+    private static ControllerHelper userHelper = new ControllerHelper(db);
 
     public AccountController()
     : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db)))

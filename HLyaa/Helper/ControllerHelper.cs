@@ -17,9 +17,9 @@ namespace HLyaa.Helper
     private static ApplicationDbContext UsersContext;
     private static UserManager<ApplicationUser> UserManager;
     private static NLogLogger logger = new NLogLogger();
-    public ControllerHelper()
+    public ControllerHelper(ApplicationDbContext context)
     {
-      UsersContext = new ApplicationDbContext();
+      UsersContext = context;
       UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(UsersContext));
     }
     public List<string> getRolesByUserInfoId(int userInfoId)

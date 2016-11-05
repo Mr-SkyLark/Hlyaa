@@ -16,7 +16,7 @@ namespace HLyaa.Controllers
   {
     private static NLogLogger logger = new NLogLogger();
     private static ApplicationDbContext db = new ApplicationDbContext();
-    private static ControllerHelper userHelper = new ControllerHelper();
+    private static ControllerHelper userHelper = new ControllerHelper(db);
 
     public EventsController()
     : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db)))
