@@ -10,6 +10,7 @@ namespace HLyaa.Entities
     public int Id { get; set; }
     public string Name { get; set; }
     public bool GodDebt { get; set; }
+    public bool IsCorrect { get; set; }
     public DateTime DateCreated { get; set; }
     public int? ReporterId { get; set; }
     public UserInfo Reporter { get; set; }

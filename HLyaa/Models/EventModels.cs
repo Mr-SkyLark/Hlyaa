@@ -16,6 +16,7 @@ namespace HLyaa.Models
   }
   public class CreateNewEventModel
   {
+    public int EventId { get; set; }
     [Required(ErrorMessage = "Введите заголовок события")]
     [Display(Name = "Заголовок события")]
     public string EventName { get; set; }

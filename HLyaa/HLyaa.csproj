@@ -213,12 +213,17 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\ControllerHelper.cs" />
+    <Compile Include="Helper\CustomModelBinders.cs" />
     <Compile Include="Logger\ILogger.cs" />
     <Compile Include="Logger\LogUtility.cs" />
     <Compile Include="Logger\NLogLogger.cs" />
     <Compile Include="Migrations\201611051038579_init.cs" />
     <Compile Include="Migrations\201611051038579_init.Designer.cs">
       <DependentUpon>201611051038579_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611051254204_addCorrectFlag.cs" />
+    <Compile Include="Migrations\201611051254204_addCorrectFlag.Designer.cs">
+      <DependentUpon>201611051254204_addCorrectFlag.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -312,6 +317,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201611051038579_init.resx">
       <DependentUpon>201611051038579_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611051254204_addCorrectFlag.resx">
+      <DependentUpon>201611051254204_addCorrectFlag.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

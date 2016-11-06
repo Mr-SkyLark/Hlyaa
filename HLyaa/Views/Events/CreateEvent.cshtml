@@ -13,6 +13,7 @@
   using (Html.BeginForm("CreateEvent", "Events", FormMethod.Post))
   {
     @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.EventId)
     <div>
       @Html.LabelFor(model => model.EventName)
       <div>

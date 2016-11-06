@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using HLyaa.Logger;
@@ -36,19 +37,32 @@ namespace HLyaa.Controllers
       return View();
     }
     //GET: Events/CreateEvent
-    public ActionResult CreateEvent()
+    public ActionResult CreateEvent(int eventId = 0)
     {
-      CreateNewEventModel model = new CreateNewEventModel();
-      var usersList = db.UsersInfo.OrderBy(m => m.Name);
+      var myEvent = db.Events.SingleOrDefault(m => m.Id == eventId);
+      CreateNewEventModel model = new CreateNewEventModel() { EventId = eventId };
+      if (myEvent != null)
+      {
+        model.EventName = myEvent.Name;
+      }
+      var usersList = db.UsersInfo.OrderBy(m => m.Name).ToList();
       // Передаём в модель днанных выводимую информацию: id пользователя,
       // имя пользователя, и сумма взноса (равна 0).
       foreach (var user in usersList)
       {
+        double contribution = 0;
+        if(myEvent != null)
+        {
+          var myUser = db.DebtParts.SingleOrDefault(m => m.EventId == eventId &&
+                                                    m.UserId == user.Id &&
+                                                    m.Summ > 0);
+          contribution = (myUser == null) ? 0 : myUser.Summ;
+        }
         model.BuyerDataItems.Add(new BuyerDataItem()
         {
           UserId = user.Id,
           Name = user.Name,
-          Data = 0
+          Data = contribution
         });
       }
       return View(model);
@@ -59,57 +73,104 @@ namespace HLyaa.Controllers
     {
       if (ModelState.IsValid)
       {
-        // Создаем новое событие
-        var newEvent = new Event()
+        // Ищем событие с идентификатором model.EventId
+        var myEvent = db.Events.SingleOrDefault(m => m.Id == model.EventId);
+        bool isNewEvent = (myEvent == null);
+        // Если нет такого события
+        if (isNewEvent)
         {
-          Name = model.EventName,
-          GodDebt = false,
-          DateCreated = DateTime.Now,
-          Reporter = userHelper.CurrentUserInfo()
-        };
-        // получаем в newEvent новый Id 
-        newEvent = db.Events.Add(newEvent);
-
-        // Сразу создаем информацию о взносе и информацию о долге.
-        // Информация о долге нужна для корректной работы системы:
-        // "сумма всех операций должна быть равна 0 (или близка к ней)"
+          // Создаем новое событие
+          myEvent = new Event()
+          {
+            Name = model.EventName,
+            GodDebt = false,
+            IsCorrect = false,
+            DateCreated = DateTime.Now,
+            Reporter = userHelper.CurrentUserInfo()
+          };
+          // получаем в myEvent новый Id 
+          myEvent = db.Events.Add(myEvent);
+        }
+        else
+        {
+          // Иначе - изменяем
+          myEvent.Name = model.EventName;
+          myEvent.GodDebt = false;
+          myEvent.IsCorrect = false;
+          db.Entry(myEvent).State = EntityState.Modified;
+        }
+        double checkSum = 0;
+        // Создаем информацию о взносе
         foreach (var item in model.BuyerDataItems)
         {
+          // Если операция положительна (взнос) - добавляем/изменяем операцию
           if (item.Data > 0)
           {
-            // Положительная операция (взнос)
-            db.DebtParts.Add(new DebtPart()
+            checkSum += item.Data;
+            var debt = db.DebtParts.SingleOrDefault(m => m.EventId == model.EventId &&
+              m.UserId == item.UserId && m.Summ > 0);
+            // Если положительных операций для пользователя нет
+            if (debt == null)
             {
-              Part = null,
-              Summ = item.Data,
-              GlobalFlag = false,
-              Event = newEvent,
-              User = db.UsersInfo.Find(item.UserId)
-            });
-            // Отрицательная операция (долг)
-            db.DebtParts.Add(new DebtPart()
+              // Создаем положительную операцию (взнос)
+              db.DebtParts.Add(new DebtPart()
+              {
+                Part = null,
+                Summ = item.Data,
+                GlobalFlag = false,
+                Event = myEvent,
+                User = db.UsersInfo.Find(item.UserId)
+              });
+              if (isNewEvent)
+              {
+                // Сразу создаем информацию  о долге.
+                // Информация о долге нужна для корректной работы системы:
+                // "сумма всех операций должна быть равна 0 (или близка к ней)"
+                db.DebtParts.Add(new DebtPart()
+                {
+                  Part = 1,
+                  Summ = 0,
+                  GlobalFlag = false,
+                  Event = myEvent,
+                  User = db.UsersInfo.Find(item.UserId)
+                });
+              }
+            }
+            else
             {
-              Part = null,
-              Summ = -item.Data,
-              GlobalFlag = false,
-              Event = newEvent,
-              User = db.UsersInfo.Find(item.UserId)
-            });
+              // Изменяеем положительную операцию
+              debt.Summ = item.Data;
+              debt.GlobalFlag = false;
+              db.Entry(debt).State = EntityState.Modified;
+            }
           }
+          else
+          {
+            // Ищем положительные операции этого события не выбранного пользователя
+            var list = db.DebtParts.Where(m => m.EventId == model.EventId &&
+              m.UserId == item.UserId && m.Summ > 0).ToList();
+
+            // Удаляем из контекста
+            db.DebtParts.RemoveRange(list);
+          }
+        }
+        if (checkSum <= 0)
+        {
+          return View(model);
         }
         // Попытка запихать все в БД
         try
         {
           db.SaveChanges();
-          logger.Info(String.Format("User {0} add new event {1}", newEvent.Reporter.Nick, newEvent.Name));
+          logger.Info(String.Format("User {0} add new event {1}", myEvent.Reporter.Nick, myEvent.Name));
         }
         catch (Exception)
         {
           logger.Error("DataBase error!");
-          logger.Error(String.Format("User {0} add new event {1}", newEvent.Reporter.Nick, newEvent.Name));
+          logger.Error(String.Format("User {0} add new event {1}", myEvent.Reporter.Nick, myEvent.Name));
           return View(model);          
         }
-        return RedirectToAction("SetDebt", "Events", new { eventId = newEvent.Id });
+        return RedirectToAction("SetDebt", "Events", new { eventId = myEvent.Id });
       }
 
       return View(model);
@@ -217,13 +278,28 @@ namespace HLyaa.Controllers
       {
         if (userList.Contains(user.Id))
         {
-          model.DebtorDataItems.Add(new DebtorDataItem()
+          var debt = db.DebtParts.SingleOrDefault( m => m.UserId == user.Id && m.EventId == eventId &&
+                                        ((m.Part > 0) || (m.Summ < 0)) );
+          if (debt == null)
           {
-            UserId = user.Id,
-            Name = user.Name,
-            DebtPart = 1,
-            DebtSum = 0
-          });
+            model.DebtorDataItems.Add(new DebtorDataItem()
+            {
+              UserId = user.Id,
+              Name = user.Name,
+              DebtPart = 1,
+              DebtSum = 0
+            });
+          }
+          else
+          {
+            model.DebtorDataItems.Add(new DebtorDataItem()
+            {
+              UserId = user.Id,
+              Name = user.Name,
+              DebtPart = debt.Part.HasValue ? debt.Part.Value : 0,
+              DebtSum = debt.Summ
+            });
+          }
         }
       }
       return View(model);
@@ -290,6 +366,7 @@ namespace HLyaa.Controllers
           {
             debtor.Part = item.DebtPart;
             debtor.Summ = -realSum;
+            db.Entry(debtor).State = EntityState.Modified;
           }
         }
         // Если у пользовател указана "сумма"
