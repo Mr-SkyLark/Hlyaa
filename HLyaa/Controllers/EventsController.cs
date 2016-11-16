@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
+using HLyaa.Server.Models;
+using HLyaa.Server.Helper;
+using HLyaa.Domain.Entities;
+using HLyaa.Domain.Context;
 using HLyaa.Logger;
-using HLyaa.Entities;
-using HLyaa.Models;
-using HLyaa.Helper;
 
-namespace HLyaa.Controllers
+namespace HLyaa.Server.Controllers
 {
   public class EventsController : Controller
   {

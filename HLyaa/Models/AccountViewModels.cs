@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System;
 
-namespace HLyaa.Models
+namespace HLyaa.Server.Models
 {
   public class ExternalLoginConfirmationViewModel
   {

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using HLyaa.Domain.Entities;
 using HLyaa.Domain.Context;
 
-namespace HLyaa.Server.Models
+namespace HLyaa.Domain.Init
 {
   /*public class ApplicationUserManager : UserManager<ApplicationUser>
   {

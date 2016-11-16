@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace HLyaa.Controllers
+namespace HLyaa.Server.Controllers
 {
   public class HomeController : Controller
   {

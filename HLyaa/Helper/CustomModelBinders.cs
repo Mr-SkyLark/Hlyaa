@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace HLyaa.Helper
+namespace HLyaa.Server.Helper
 {
   /// <summary>
   /// Класс перевода строки списка чисел в контейнер чисел

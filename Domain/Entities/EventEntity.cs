@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 
-namespace HLyaa.Entities
+namespace HLyaa.Domain.Entities
 {
   public class Event
   {

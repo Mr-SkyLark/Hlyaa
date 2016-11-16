@@ -6,8 +6,9 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Data.Entity;
-using HLyaa.Models;
-using HLyaa.Logger;
+using HLyaa.Server.Models;
+using HLyaa.Server.Logger;
+using HLyaa.Domain.Context;
 
 namespace HLyaa
 {

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Web;
 using System.Web.Mvc;
 
-namespace HLyaa.Models
+namespace HLyaa.Server.Models
 {
   // CreateEvent
   public class BuyerDataItem

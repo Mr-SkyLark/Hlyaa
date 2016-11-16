@@ -1,22 +1,18 @@
 ﻿using System;
 using System.Data.Entity;
-using System.Diagnostics;
-using System.Net;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
-using HLyaa.Models;
-using HLyaa.Entities;
+using HLyaa.Server.Models;
+using HLyaa.Server.Helper;
+using HLyaa.Domain.Entities;
+using HLyaa.Domain.Context;
 using HLyaa.Logger;
-using HLyaa.Helper;
 
-namespace HLyaa.Controllers
+namespace HLyaa.Server.Controllers
 {
 
   [Authorize]
@@ -24,21 +20,11 @@ namespace HLyaa.Controllers
   {
     private static NLogLogger logger = new NLogLogger();
 
-    private static ApplicationDbContext db = new ApplicationDbContext();
-
-    private static ControllerHelper userHelper = new ControllerHelper(db);
+    //private static ControllerHelper userHelper = new ControllerHelper(db);
 
     public AccountController()
-    : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db)))
     {
     }
-
-    public AccountController(UserManager<ApplicationUser> userManager)
-    {
-      UserManager = userManager;
-    }
-
-    public UserManager<ApplicationUser> UserManager { get; private set; }
     //
     // GET: /Account/Login
     [AllowAnonymous]

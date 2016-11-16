@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Collections.Generic;
 using System;
-using HLyaa.Entities;
+using HLyaa.Domain.Entities;
 
 
-namespace HLyaa.Models
+namespace HLyaa.Domain.Context
 {
   public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
   {

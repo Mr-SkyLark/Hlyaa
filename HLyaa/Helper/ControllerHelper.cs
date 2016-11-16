@@ -6,11 +6,12 @@ using System.Web.Mvc;
 using System.Security.Claims;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using HLyaa.Models;
-using HLyaa.Entities;
-using HLyaa.Logger;
+using HLyaa.Server.Models;
+using HLyaa.Server.Logger;
+using HLyaa.Domain.Entities;
+using HLyaa.Domain.Context;
 
-namespace HLyaa.Helper
+namespace HLyaa.Server.Helper
 {
   public class ControllerHelper
   {
